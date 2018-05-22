@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/nordcap/book-shelf/issues"
   },
-  "homepage": "https://github.com/nordcap/book-shelf#readme"
+  "homepage": "https://github.com/nordcap/book-shelf#readme",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.5.1",
+    "cookie-parser": "^1.4.3"
+  }
 }
