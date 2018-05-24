@@ -12,6 +12,13 @@ mongoose.connect(config.DATABASE);
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+const { User } = require('./models/user');
+const { Book } = require('./models/book');
+
+
+//POST, GET request
+
+
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
