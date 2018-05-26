@@ -17,6 +17,30 @@ const { Book } = require('./models/book');
 
 
 // GET requests
+app.get('/api/getBook', (req, res) => {
+    let id = req.query.id;
+
+    Book.findById(id, (err, doc) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc);
+    })
+});
+
+app.get('/api/books', (req, res) => {
+    //localhost:3001/api/books?skip=3&limit=2&order=ask
+    let skip = parseInt(req.query.skip);
+    let limit = parseInt(req.query.limit);
+    let order = req.query.order;
+
+    //order = asc || desc
+
+    Book.find().skip(skip).sort({ _id: order }).limit(limit).exec((err, doc) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc);
+    });
+
+
+});
 
 
 // POST requests
