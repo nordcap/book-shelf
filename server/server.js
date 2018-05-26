@@ -16,8 +16,28 @@ const { User } = require('./models/user');
 const { Book } = require('./models/book');
 
 
-//POST, GET request
+// GET requests
 
+
+// POST requests
+app.post('/api/book', (req, res) => {
+    const book = new Book(req.body);
+
+    book.save((err, doc) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).json({
+            post: true,
+            bookId: doc._id
+        });
+    });
+
+
+});
+
+// UPDATE requests
+
+
+// DELETE requests
 
 
 const port = process.env.PORT || 3001;
