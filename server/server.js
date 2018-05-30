@@ -54,9 +54,22 @@ app.post('/api/book', (req, res) => {
             bookId: doc._id
         });
     });
+});
 
+
+app.post('/api/register', (req, res) => {
+    const user = new User(req.body);
+
+    user.save((err, doc) => {
+        if (err) return res.json({ success: false });
+        res.status(200).json({
+            success: true,
+            user: doc
+        });
+    });
 
 });
+
 
 // UPDATE requests
 app.post('/api/book_update', (req, res) => {
