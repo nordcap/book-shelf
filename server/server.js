@@ -71,6 +71,33 @@ app.post('/api/register', (req, res) => {
 });
 
 
+app.post('/api/login', (req, res) => {
+    User.findOne({ 'email': req.body.email }, (err, user) => {
+        if (!user) return res.json({
+            isAuth: false,
+            message: 'Авторизация неудачна, email не найден'
+        })
+
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (!isMatch) return res.json({
+                isAuth: false,
+                message: 'Неверный пароль!'
+            })
+
+            user.generateToken((err, user) => {
+                if (err) return res.status(400).send(err);
+                res.cookie('auth', user.token).json({
+                    isAuth: true,
+                    id: user._id,
+                    email: user.email
+                })
+            });
+        })
+
+    });
+});
+
+
 // UPDATE requests
 app.post('/api/book_update', (req, res) => {
     Book.findByIdAndUpdate(req.body._id, req.body, { new: true }, (err, doc) => {
