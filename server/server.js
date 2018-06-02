@@ -17,6 +17,15 @@ const { Book } = require('./models/book');
 const { auth } = require('./middleware/auth');
 
 // GET requests
+app.get('/api/auth', auth, (req, res) => {
+    res.json({
+        isAuth: true,
+        id: req.user._id,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname
+    });
+})
 
 app.get('/api/logout', auth, (req, res) => {
     req.user.deleteToken(req.token, (err, user) => {
