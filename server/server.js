@@ -109,7 +109,7 @@ app.post('/api/register', (req, res) => {
             success: true,
             user: doc
         });
-    });
+    }); 
 
 });
 
