@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "engines": {
-    "node": "9.10.1"
+    "node": "10.4.1"
   },
   "repository": {
     "type": "git",
