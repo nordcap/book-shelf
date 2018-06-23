@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { addBook, clearNewBook } from "./../../actions";
 
 class AddBook extends Component {
     state = {
@@ -23,9 +26,31 @@ class AddBook extends Component {
             formdata: newFormdata
         });
     };
+
+    showNewBook = book =>
+        book.post ? (
+            <div className="conf_link">
+                Хорошо!{" "}
+                <Link to={`/books/${book.bookId}`}>
+                    Кликните ссылку для просмотра поста
+                </Link>
+            </div>
+        ) : null;
+
     submitForm = e => {
         e.preventDefault();
+        this.props.dispatch(
+            addBook({
+                ...this.state.formdata,
+                ownerId: this.props.user.login.id
+            })
+        );
     };
+
+    componentWillUnmount() {
+       this.props.dispatch(clearNewBook()); 
+    }
+
     render() {
         return (
             <div className="rl_container article">
@@ -34,7 +59,7 @@ class AddBook extends Component {
                     <div className="form_element">
                         <input
                             type="text"
-                            placeholder="Введите имя"
+                            placeholder="Введите название"
                             value={this.state.formdata.name}
                             onChange={event => this.handleInput(event, "name")}
                         />
@@ -85,10 +110,18 @@ class AddBook extends Component {
                     </div>
 
                     <button type="submit">Добавить отзыв</button>
+                    {this.props.books.newbook
+                        ? this.showNewBook(this.props.books.newbook)
+                        : null}
                 </form>
             </div>
         );
     }
 }
 
-export default AddBook;
+function mapStateToProps(state) {
+    return {
+        books: state.books
+    };
+}
+export default connect(mapStateToProps)(AddBook);
