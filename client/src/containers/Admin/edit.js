@@ -42,7 +42,7 @@ class EditBook extends PureComponent {
             this.props.history.push("/user/user-reviews");
         }, 1000);
     };
-
+    //TODO: change on constructor or componentDidMount
     componentWillMount() {
         this.props.dispatch(getBook(this.props.match.params.id));
     }
