@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { getUsers, userRegister } from "./../../actions";
 
-class Register extends Component {
+class Register extends PureComponent {
     state = {
         name: "",
         lastname: "",
@@ -32,21 +32,33 @@ class Register extends Component {
         this.setState({ lastname: event.target.value });
     };
 
-   //TODO: change on componentDidUpdate
-    componentWillReceiveProps(nextProps){
-
+    //TODO: change on componentDidUpdate
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user.register === false) {
+            this.setState({ error: "Ошибка! Повторите снова" });
+        } else {
+            this.setState({
+                name: "",
+                lastname: "",
+                email: "",
+                password: ""
+            });
+        }
     }
 
     submitForm = e => {
         e.preventDefault();
         this.setState({ error: "" });
         this.props.dispatch(
-            userRegister({
-                name: this.state.name,
-                lastname: this.state.lastname,
-                email: this.state.email,
-                password: this.state.password
-            }, this.props.user.users)
+            userRegister(
+                {
+                    name: this.state.name,
+                    lastname: this.state.lastname,
+                    email: this.state.email,
+                    password: this.state.password
+                },
+                this.props.user.users
+            )
         );
     };
 
@@ -62,7 +74,6 @@ class Register extends Component {
             : null;
 
     render() {
-        console.log(this.props);
         let user = this.props.user;
         return (
             <div className="rl_container">
