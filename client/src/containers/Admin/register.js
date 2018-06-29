@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUsers, userRegisterUser } from "./../../actions";
+import { getUsers, userRegister } from "./../../actions";
 
 class Register extends Component {
     state = {
@@ -16,16 +16,38 @@ class Register extends Component {
         this.props.dispatch(getUsers());
     }
 
-    handleInputEmail = event => {};
+    handleInputEmail = event => {
+        this.setState({ email: event.target.value });
+    };
 
-    handleInputPassword = event => {};
+    handleInputPassword = event => {
+        this.setState({ password: event.target.value });
+    };
 
-    handleInputName = event => {};
+    handleInputName = event => {
+        this.setState({ name: event.target.value });
+    };
 
-    handleInputLastname = event => {};
+    handleInputLastname = event => {
+        this.setState({ lastname: event.target.value });
+    };
+
+   //TODO: change on componentDidUpdate
+    componentWillReceiveProps(nextProps){
+
+    }
 
     submitForm = e => {
         e.preventDefault();
+        this.setState({ error: "" });
+        this.props.dispatch(
+            userRegister({
+                name: this.state.name,
+                lastname: this.state.lastname,
+                email: this.state.email,
+                password: this.state.password
+            }, this.props.user.users)
+        );
     };
 
     showUsers = user =>
@@ -40,11 +62,51 @@ class Register extends Component {
             : null;
 
     render() {
+        console.log(this.props);
         let user = this.props.user;
         return (
             <div className="rl_container">
                 <form onSubmit={this.submitForm}>
                     <h2>Добавить пользователя</h2>
+
+                    <div className="form_element">
+                        <input
+                            type="text"
+                            placeholder="Введите имя"
+                            value={this.state.name}
+                            onChange={this.handleInputName}
+                        />
+                    </div>
+
+                    <div className="form_element">
+                        <input
+                            type="text"
+                            placeholder="Введите фамилию"
+                            value={this.state.lastname}
+                            onChange={this.handleInputLastname}
+                        />
+                    </div>
+
+                    <div className="form_element">
+                        <input
+                            type="email"
+                            placeholder="Введите email"
+                            value={this.state.email}
+                            onChange={this.handleInputEmail}
+                        />
+                    </div>
+
+                    <div className="form_element">
+                        <input
+                            type="password"
+                            placeholder="Введите пароль"
+                            value={this.state.password}
+                            onChange={this.handleInputPassword}
+                        />
+                    </div>
+
+                    <button type="submit">Добавить пользователя</button>
+                    <div className="error">{this.state.error}</div>
                 </form>
                 <div className="current_users">
                     <h4>Текущие пользователи:</h4>

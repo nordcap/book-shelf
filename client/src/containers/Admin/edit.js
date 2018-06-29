@@ -46,7 +46,7 @@ class EditBook extends PureComponent {
     componentWillMount() {
         this.props.dispatch(getBook(this.props.match.params.id));
     }
-    //TODO: change on componentDidUpdate or constructor
+    //TODO: change on componentDidUpdate
     componentWillReceiveProps(nextProps) {
         let book = nextProps.books.book;
         this.setState({
